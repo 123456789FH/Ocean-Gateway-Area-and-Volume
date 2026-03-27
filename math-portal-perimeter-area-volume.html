@@ -1,0 +1,817 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>بوابة المحيط والمساحة والحجم</title>
+  <meta name="theme-color" content="#0f766e" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-1: #ecfeff;
+      --bg-2: #f8fafc;
+      --card: rgba(255,255,255,0.92);
+      --text: #0f172a;
+      --muted: #475569;
+      --line: rgba(15, 23, 42, 0.08);
+      --primary: #0f766e;
+      --primary-2: #14b8a6;
+      --gold: #f59e0b;
+      --shadow: 0 20px 50px rgba(15, 23, 42, 0.12);
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: "Cairo", system-ui, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top right, rgba(20,184,166,0.16), transparent 28%),
+        radial-gradient(circle at bottom left, rgba(245,158,11,0.12), transparent 22%),
+        linear-gradient(180deg, var(--bg-1), var(--bg-2));
+      min-height: 100%;
+    }
+
+    body {
+      line-height: 1.7;
+    }
+
+    .page {
+      width: min(1280px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 36px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(15,118,110,0.94), rgba(20,184,166,0.86));
+      color: white;
+      border-radius: 32px;
+      box-shadow: var(--shadow);
+      padding: 28px;
+      margin-bottom: 20px;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0.24;
+    }
+
+    .hero::before {
+      width: 240px;
+      height: 240px;
+      background: rgba(255,255,255,0.24);
+      top: -70px;
+      left: -50px;
+    }
+
+    .hero::after {
+      width: 180px;
+      height: 180px;
+      background: rgba(255,255,255,0.18);
+      bottom: -40px;
+      right: -30px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 20px;
+      align-items: stretch;
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(8px);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1.2;
+    }
+
+    .hero p {
+      margin: 0;
+      font-size: 18px;
+      color: rgba(255,255,255,0.94);
+    }
+
+    .hero-side {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .mini-card {
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 22px;
+      padding: 16px;
+      backdrop-filter: blur(10px);
+      min-height: 124px;
+    }
+
+    .mini-card .icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+      display: inline-block;
+    }
+
+    .mini-card strong {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    .mini-card span {
+      display: block;
+      font-size: 14px;
+      color: rgba(255,255,255,0.95);
+    }
+
+    .section {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      margin-top: 18px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.2;
+    }
+
+    .section-head p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .pill {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: #ecfeff;
+      color: var(--primary);
+      font-weight: 800;
+      border: 1px solid rgba(15,118,110,0.12);
+      white-space: nowrap;
+    }
+
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .app-card {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: linear-gradient(180deg, #ffffff, #f8fbff);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .app-card::before {
+      content: "";
+      position: absolute;
+      inset: auto -18px -18px auto;
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(20,184,166,0.14), transparent 70%);
+      pointer-events: none;
+    }
+
+    .app-card.active {
+      border-color: rgba(15,118,110,0.35);
+      box-shadow: 0 14px 30px rgba(20,184,166,0.14);
+      transform: translateY(-2px);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .icon-bubble {
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      font-size: 28px;
+      background: linear-gradient(135deg, rgba(15,118,110,0.12), rgba(245,158,11,0.16));
+      border: 1px solid rgba(15,118,110,0.12);
+    }
+
+    .tag {
+      font-size: 13px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      color: #334155;
+      font-weight: 700;
+    }
+
+    .app-card h3 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.25;
+    }
+
+    .app-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      min-height: 78px;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: auto;
+    }
+
+    button, .button-link {
+      appearance: none;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 16px;
+      border-radius: 16px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 800;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+
+    button:hover, .button-link:hover {
+      transform: translateY(-1px);
+    }
+
+    .primary-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: white;
+      box-shadow: 0 10px 24px rgba(20,184,166,0.25);
+    }
+
+    .secondary-btn {
+      background: #ffffff;
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    .viewer-wrap {
+      display: grid;
+      grid-template-columns: 310px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .viewer-side {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 16px;
+      background: linear-gradient(180deg, #ffffff, #f8fbff);
+      position: sticky;
+      top: 16px;
+    }
+
+    .viewer-side h3 {
+      margin: 0 0 8px;
+      font-size: 22px;
+    }
+
+    .viewer-side p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .tab-list {
+      display: grid;
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .tab-btn {
+      width: 100%;
+      justify-content: flex-start;
+      padding: 14px 15px;
+      border-radius: 18px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      color: var(--text);
+      box-shadow: none;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(15,118,110,0.12), rgba(20,184,166,0.16));
+      border-color: rgba(15,118,110,0.28);
+      color: var(--primary);
+    }
+
+    .tab-btn .emoji {
+      font-size: 20px;
+    }
+
+    .viewer-main {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      overflow: hidden;
+      background: #ffffff;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
+    }
+
+    .viewer-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      background: linear-gradient(180deg, #fbfdff, #f4f8fb);
+      border-bottom: 1px solid var(--line);
+      flex-wrap: wrap;
+    }
+
+    .viewer-title-wrap {
+      min-width: 260px;
+    }
+
+    .viewer-title {
+      margin: 0;
+      font-size: 23px;
+      line-height: 1.2;
+    }
+
+    .viewer-subtitle {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .iframe-box {
+      position: relative;
+      width: 100%;
+      background: #eef7f8;
+      min-height: 720px;
+    }
+
+    iframe {
+      display: block;
+      width: 100%;
+      height: 720px;
+      border: 0;
+      background: white;
+    }
+
+    .empty-state {
+      position: absolute;
+      inset: 0;
+      display: none;
+      place-items: center;
+      padding: 24px;
+      background: linear-gradient(180deg, rgba(248,250,252,0.72), rgba(236,254,255,0.82));
+      text-align: center;
+    }
+
+    .empty-state.show {
+      display: grid;
+    }
+
+    .empty-card {
+      max-width: 580px;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+
+    .empty-card h4 {
+      margin: 0 0 10px;
+      font-size: 24px;
+    }
+
+    .empty-card p {
+      margin: 0 0 14px;
+      color: var(--muted);
+    }
+
+    .tips {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .tip {
+      border-radius: 20px;
+      background: linear-gradient(180deg, #ffffff, #f8fbff);
+      border: 1px solid var(--line);
+      padding: 16px;
+    }
+
+    .tip strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 17px;
+    }
+
+    .tip span {
+      color: var(--muted);
+      font-size: 14px;
+      display: block;
+    }
+
+    .footer {
+      margin-top: 18px;
+      padding: 18px 10px 4px;
+      text-align: center;
+      color: #334155;
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .footer .line2 {
+      margin-top: 4px;
+      color: #64748b;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .small-note {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 1100px) {
+      .apps-grid { grid-template-columns: repeat(2, 1fr); }
+      .viewer-wrap { grid-template-columns: 1fr; }
+      .viewer-side { position: static; }
+      .hero-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .page { width: min(100% - 18px, 100%); }
+      .hero, .section { padding: 18px; }
+      .hero-side { grid-template-columns: 1fr 1fr; }
+      .apps-grid, .tips { grid-template-columns: 1fr; }
+      .viewer-title { font-size: 20px; }
+      iframe, .iframe-box { min-height: 560px; height: 560px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { scroll-behavior: auto !important; }
+      button, .button-link, .app-card { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="badge-row">
+            <span class="badge">📘 بوابة تعليمية تفاعلية</span>
+            <span class="badge">🧮 المحيط + المساحة + الحجم</span>
+            <span class="badge">🎮 لعبة تطبيقية</span>
+          </div>
+          <h1>بوابة المحيط والمساحة والحجم</h1>
+          <p>
+            تطبيق واحد يجمع الأنشطة التعليمية واللعبة في مكان واحد، مع إمكانية
+            <strong>الفتح داخل التطبيق</strong> أو <strong>الفتح في تبويب جديد</strong>
+            حسب رغبتك.
+          </p>
+        </div>
+
+        <div class="hero-side">
+          <div class="mini-card">
+            <span class="icon">📏</span>
+            <strong>المحيط</strong>
+            <span>تتبّع الحد الخارجي وعدّ الوحدات بوضوح.</span>
+          </div>
+          <div class="mini-card">
+            <span class="icon">🟦</span>
+            <strong>المساحة</strong>
+            <span>غطِّ الشكل بالمربعات واربط العدّ بالقانون.</span>
+          </div>
+          <div class="mini-card">
+            <span class="icon">🧊</span>
+            <strong>الحجم</strong>
+            <span>ابنِ المكعبات وعدّ الوحدات المكعبة خطوة خطوة.</span>
+          </div>
+          <div class="mini-card">
+            <span class="icon">🎯</span>
+            <strong>اللعبة</strong>
+            <span>موقف حياتي يجمع المفاهيم الثلاثة في مهمة واحدة.</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>التطبيقات المجمّعة</h2>
+          <p>اختر أي نشاط لعرضه داخل البوابة أو لفتحه مباشرة في تبويب جديد.</p>
+        </div>
+        <div class="pill" id="currentPill">المحدد الآن: المحيط</div>
+      </div>
+
+      <div class="apps-grid" id="appsGrid"></div>
+    </section>
+
+    <section class="section" id="viewerSection">
+      <div class="section-head">
+        <div>
+          <h2>عارض التطبيق</h2>
+          <p>يمكنك التنقل بين التبويبات دون مغادرة البوابة.</p>
+        </div>
+        <div class="pill">وضع العرض المباشر</div>
+      </div>
+
+      <div class="viewer-wrap">
+        <aside class="viewer-side">
+          <h3>التبويبات</h3>
+          <p>اضغط على اسم النشاط لعرضه داخل البوابة، أو استخدم زر الفتح الخارجي.</p>
+          <div class="tab-list" id="tabList"></div>
+          <div class="small-note">
+            ملاحظة: إذا منع المتصفح أو الموقع العرض داخل الإطار، استخدم زر
+            <strong>فتح في تبويب جديد</strong> وسيعمل مباشرة.
+          </div>
+        </aside>
+
+        <div class="viewer-main">
+          <div class="viewer-toolbar">
+            <div class="viewer-title-wrap">
+              <h3 class="viewer-title" id="viewerTitle">تطبيق لفهم وحساب المحيط</h3>
+              <p class="viewer-subtitle" id="viewerSubtitle">عرض مباشر داخل البوابة التعليمية.</p>
+            </div>
+            <div class="toolbar-actions">
+              <button class="secondary-btn" id="reloadBtn" type="button">↻ إعادة التحميل</button>
+              <button class="secondary-btn" id="copyBtn" type="button">🔗 نسخ الرابط</button>
+              <button class="primary-btn" id="openNewBtn" type="button">↗ فتح في تبويب جديد</button>
+            </div>
+          </div>
+
+          <div class="iframe-box">
+            <iframe id="appFrame" title="عارض التطبيقات التعليمية" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <div class="empty-state" id="emptyState">
+              <div class="empty-card">
+                <h4>تعذر العرض داخل التطبيق</h4>
+                <p>
+                  أحيانًا يمنع الموقع أو المتصفح فتح الصفحة داخل الإطار المضمّن.
+                  لا تقلق، ما زال بإمكانك تشغيل النشاط مباشرة عبر الزر التالي.
+                </p>
+                <button class="primary-btn" id="fallbackOpenBtn" type="button">↗ افتح النشاط الآن</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tips">
+        <div class="tip">
+          <strong>١) استخدام داخل الحصة</strong>
+          <span>اعرض النشاط داخل البوابة للتنقل السريع بين المحيط والمساحة والحجم.</span>
+        </div>
+        <div class="tip">
+          <strong>٢) مشاركة سريعة</strong>
+          <span>افتح أي تطبيق في تبويب جديد ثم انسخ رابطه للطلاب بسهولة.</span>
+        </div>
+        <div class="tip">
+          <strong>٣) ربط المفاهيم</strong>
+          <span>اختم الدرس باللعبة؛ لأنها تجمع المفاهيم الثلاثة في مثال حياتي واحد.</span>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      ملتقى التعليم التفاعلي
+      <div class="line2">أ/ فاطمة هزازي</div>
+    </footer>
+  </div>
+
+  <script>
+    const apps = [
+      {
+        id: 'perimeter',
+        emoji: '📏',
+        short: 'المحيط',
+        title: 'تطبيق لفهم وحساب المحيط',
+        subtitle: 'تتبّع الحد الخارجي وعدّ الوحدات خطوة خطوة.',
+        tag: 'الحد الخارجي',
+        url: 'https://123456789fh.github.io/Perimeter-calculation/',
+        description: 'نشاط يوضح معنى المحيط من خلال تتبّع حدود الشكل والعدّ بوضوح حتى يفهم الطالب أن المحيط هو طول الحد الخارجي.'
+      },
+      {
+        id: 'area',
+        emoji: '🟦',
+        short: 'المساحة',
+        title: 'تطبيق لفهم وقياس المساحة',
+        subtitle: 'غطِّ الشكل بالمربعات واربط العدد بالقانون.',
+        tag: 'تغطية الشكل',
+        url: 'https://123456789fh.github.io/Area-calculation/',
+        description: 'نشاط يشرح المساحة على أنها عدد المربعات التي تغطي الشكل من الداخل، مع عرض تدريجي يساعد الطالب على العدّ والفهم.'
+      },
+      {
+        id: 'volume',
+        emoji: '🧊',
+        short: 'الحجم',
+        title: 'تطبيق لفهم وحساب الحجم',
+        subtitle: 'ابنِ المكعبات وعدّ الوحدات المكعبة بوضوح.',
+        tag: 'بناء المكعبات',
+        url: 'https://123456789fh.github.io/Calculate-volume/',
+        description: 'نشاط يوضح الحجم من خلال بناء مكعبات داخل مجسم، ثم الربط بين عدد المكعبات وقانون الحجم بطريقة مناسبة للمرحلة الابتدائية.'
+      },
+      {
+        id: 'game',
+        emoji: '🎮',
+        short: 'اللعبة',
+        title: 'لعبة الغرفة الذكية',
+        subtitle: 'مثال حياتي يجمع المحيط والمساحة والحجم.',
+        tag: 'مهمة تفاعلية',
+        url: 'https://123456789fh.github.io/Game--/',
+        description: 'لعبة تربط المفاهيم الثلاثة معًا داخل موقف حياتي واحد؛ فيغطي الطالب الأرضية، ثم يحسب المحيط، ثم يبني الحجم.'
+      }
+    ];
+
+    const appsGrid = document.getElementById('appsGrid');
+    const tabList = document.getElementById('tabList');
+    const frame = document.getElementById('appFrame');
+    const viewerTitle = document.getElementById('viewerTitle');
+    const viewerSubtitle = document.getElementById('viewerSubtitle');
+    const currentPill = document.getElementById('currentPill');
+    const emptyState = document.getElementById('emptyState');
+    const reloadBtn = document.getElementById('reloadBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const openNewBtn = document.getElementById('openNewBtn');
+    const fallbackOpenBtn = document.getElementById('fallbackOpenBtn');
+    const viewerSection = document.getElementById('viewerSection');
+
+    let currentId = localStorage.getItem('mathPortalCurrentApp') || apps[0].id;
+    let fallbackTimer = null;
+
+    function getCurrentApp() {
+      return apps.find(app => app.id === currentId) || apps[0];
+    }
+
+    function scrollToViewer() {
+      viewerSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function renderCards() {
+      appsGrid.innerHTML = apps.map(app => `
+        <article class="app-card ${app.id === currentId ? 'active' : ''}" data-card="${app.id}">
+          <div class="card-top">
+            <div class="icon-bubble">${app.emoji}</div>
+            <span class="tag">${app.tag}</span>
+          </div>
+          <div>
+            <h3>${app.title}</h3>
+            <p>${app.description}</p>
+          </div>
+          <div class="button-row">
+            <button class="primary-btn" type="button" onclick="loadInside('${app.id}', true)">فتح داخل التطبيق</button>
+            <button class="secondary-btn" type="button" onclick="openInNewTab('${app.id}')">فتح في تبويب جديد</button>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function renderTabs() {
+      tabList.innerHTML = apps.map(app => `
+        <button class="tab-btn ${app.id === currentId ? 'active' : ''}" type="button" onclick="loadInside('${app.id}', false)">
+          <span class="emoji">${app.emoji}</span>
+          <span>${app.short}</span>
+        </button>
+      `).join('');
+    }
+
+    function updateHeader(app) {
+      viewerTitle.textContent = app.title;
+      viewerSubtitle.textContent = app.subtitle;
+      currentPill.textContent = `المحدد الآن: ${app.short}`;
+      document.title = `${app.short} | بوابة المحيط والمساحة والحجم`;
+    }
+
+    function scheduleFallback() {
+      clearTimeout(fallbackTimer);
+      emptyState.classList.remove('show');
+      fallbackTimer = setTimeout(() => {
+        emptyState.classList.add('show');
+      }, 4500);
+    }
+
+    function loadInside(appId, shouldScroll = false) {
+      currentId = appId;
+      const app = getCurrentApp();
+      localStorage.setItem('mathPortalCurrentApp', currentId);
+      updateHeader(app);
+      renderCards();
+      renderTabs();
+      emptyState.classList.remove('show');
+      scheduleFallback();
+      frame.src = app.url;
+      if (shouldScroll) scrollToViewer();
+    }
+
+    function openInNewTab(appId = currentId) {
+      const app = apps.find(item => item.id === appId) || getCurrentApp();
+      window.open(app.url, '_blank', 'noopener');
+    }
+
+    frame.addEventListener('load', () => {
+      clearTimeout(fallbackTimer);
+      emptyState.classList.remove('show');
+    });
+
+    reloadBtn.addEventListener('click', () => {
+      const app = getCurrentApp();
+      frame.src = app.url;
+      emptyState.classList.remove('show');
+      scheduleFallback();
+    });
+
+    copyBtn.addEventListener('click', async () => {
+      const app = getCurrentApp();
+      try {
+        await navigator.clipboard.writeText(app.url);
+        copyBtn.textContent = '✅ تم نسخ الرابط';
+        setTimeout(() => copyBtn.textContent = '🔗 نسخ الرابط', 1800);
+      } catch (err) {
+        prompt('انسخ الرابط التالي:', app.url);
+      }
+    });
+
+    openNewBtn.addEventListener('click', () => openInNewTab(currentId));
+    fallbackOpenBtn.addEventListener('click', () => openInNewTab(currentId));
+
+    window.loadInside = loadInside;
+    window.openInNewTab = openInNewTab;
+
+    loadInside(currentId, false);
+  </script>
+</body>
+</html>
